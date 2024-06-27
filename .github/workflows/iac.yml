@@ -85,4 +85,7 @@ jobs:
             -var="backend_storage_account_name=${BACKEND_STORAGE_ACCOUNT_NAME}" \
             -var="backend_container_name=${BACKEND_CONTAINER_NAME}" \
             -var="backend_key=${BACKEND_KEY}" \
+            -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
+            -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
+            -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
             -input=false -no-color
