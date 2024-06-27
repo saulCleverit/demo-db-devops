@@ -30,22 +30,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Verify environment variables
-        run: |
-          echo "Verifying environment variables..."
-          test -n "${ARM_SUBSCRIPTION_ID}" && echo "ARM_SUBSCRIPTION_ID is set" || echo "ARM_SUBSCRIPTION_ID is not set"
-          test -n "${ARM_CLIENT_ID}" && echo "ARM_CLIENT_ID is set" || echo "ARM_CLIENT_ID is not set"
-          test -n "${ARM_CLIENT_SECRET}" && echo "ARM_CLIENT_SECRET is set" || echo "ARM_CLIENT_SECRET is not set"
-          test -n "${ARM_TENANT_ID}" && echo "ARM_TENANT_ID is set" || echo "ARM_TENANT_ID is not set"
-          test -n "${BACKEND_RESOURCE_GROUP_NAME}" && echo "BACKEND_RESOURCE_GROUP_NAME is set" || echo "BACKEND_RESOURCE_GROUP_NAME is not set"
-          test -n "${BACKEND_STORAGE_ACCOUNT_NAME}" && echo "BACKEND_STORAGE_ACCOUNT_NAME is set" || echo "BACKEND_STORAGE_ACCOUNT_NAME is not set"
-          test -n "${BACKEND_CONTAINER_NAME}" && echo "BACKEND_CONTAINER_NAME is set" || echo "BACKEND_CONTAINER_NAME is not set"
-          test -n "${BACKEND_KEY}" && echo "BACKEND_KEY is set" || echo "BACKEND_KEY is not set"
-          test -n "${ADMIN_PASSWORD}" && echo "ADMIN_PASSWORD is set" || echo "ADMIN_PASSWORD is not set"
-          test -n "${SQL_SERVER_NAME}" && echo "SQL_SERVER_NAME is set" || echo "SQL_SERVER_NAME is not set"
-          test -n "${SQL_DATABASE_NAME}" && echo "SQL_DATABASE_NAME is set" || echo "SQL_DATABASE_NAME is not set"
-          test -n "${ADMIN_USERNAME}" && echo "ADMIN_USERNAME is set" || echo "ADMIN_USERNAME is not set"
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
@@ -63,9 +47,26 @@ jobs:
           export BACKEND_CONTAINER_NAME=${{ secrets.BACKEND_CONTAINER_NAME }}
           export BACKEND_KEY=${{ secrets.BACKEND_KEY }}
 
-      - name: Terraform Init
-        run: terraform init -backend-config="resource_group_name=${BACKEND_RESOURCE_GROUP_NAME}" -backend-config="storage_account_name=${BACKEND_STORAGE_ACCOUNT_NAME}" -backend-config="container_name=${BACKEND_CONTAINER_NAME}" -backend-config="key=${BACKEND_KEY}"
+      - name: Create backend.tfvars file
+        run: |
+          echo "resource_group_name=${{ secrets.BACKEND_RESOURCE_GROUP_NAME }}" > backend.tfvars
+          echo "storage_account_name=${{ secrets.BACKEND_STORAGE_ACCOUNT_NAME }}" >> backend.tfvars
+          echo "container_name=${{ secrets.BACKEND_CONTAINER_NAME }}" >> backend.tfvars
+          echo "key=${{ secrets.BACKEND_KEY }}" >> backend.tfvars
 
+      - name: Create terraform.tfvars file
+        run: |
+          echo "subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}" > terraform.tfvars
+          echo "client_id=${{ secrets.ARM_CLIENT_ID }}" >> terraform.tfvars
+          echo "client_secret=${{ secrets.ARM_CLIENT_SECRET }}" >> terraform.tfvars
+          echo "tenant_id=${{ secrets.ARM_TENANT_ID }}" >> terraform.tfvars
+          echo "admin_password=${{ secrets.ADMIN_PASSWORD }}" >> terraform.tfvars
+          echo "sql_server_name=${{ secrets.SQL_SERVER_NAME }}" >> terraform.tfvars
+          echo "sql_database_name=${{ secrets.SQL_DATABASE_NAME }}" >> terraform.tfvars
+          echo "admin_username=${{ secrets.ADMIN_USERNAME }}" >> terraform.tfvars
+
+      - name: Terraform Init
+        run: terraform init -backend-config=backend.tfvars
       - name: Terraform Format
         run: terraform fmt -check
 
@@ -75,17 +76,4 @@ jobs:
       - name: Terraform Apply
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-          terraform apply -auto-approve \
-            -var="admin_password=${ADMIN_PASSWORD}" \
-            -var="subscription_id=${ARM_SUBSCRIPTION_ID}" \
-            -var="sql_server_name=${SQL_SERVER_NAME}" \
-            -var="sql_database_name=${SQL_DATABASE_NAME}" \
-            -var="admin_username=${ADMIN_USERNAME}" \
-            -var="backend_resource_group_name=${BACKEND_RESOURCE_GROUP_NAME}" \
-            -var="backend_storage_account_name=${BACKEND_STORAGE_ACCOUNT_NAME}" \
-            -var="backend_container_name=${BACKEND_CONTAINER_NAME}" \
-            -var="backend_key=${BACKEND_KEY}" \
-            -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
-            -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
-            -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
-            -input=false -no-color
+          terraform apply -auto-approve -var-file=terraform.tfvars
