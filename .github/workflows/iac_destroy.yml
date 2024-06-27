@@ -8,11 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TF_LOG: DEBUG
-      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
       SQL_SERVER_NAME: ${{ secrets.SQL_SERVER_NAME }}
       SQL_DATABASE_NAME: ${{ secrets.SQL_DATABASE_NAME }}
       ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
@@ -37,10 +37,6 @@ jobs:
           export ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }}
           export ARM_CLIENT_SECRET=${{ secrets.ARM_CLIENT_SECRET }}
           export ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }}
-          export BACKEND_RESOURCE_GROUP_NAME=${{ secrets.BACKEND_RESOURCE_GROUP_NAME }}
-          export BACKEND_STORAGE_ACCOUNT_NAME=${{ secrets.BACKEND_STORAGE_ACCOUNT_NAME }}
-          export BACKEND_CONTAINER_NAME=${{ secrets.BACKEND_CONTAINER_NAME }}
-          export BACKEND_KEY=${{ secrets.BACKEND_KEY }}
 
       - name: Create backend.tfvars file
         run: |
