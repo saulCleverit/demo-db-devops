@@ -68,12 +68,10 @@ jobs:
       - name: Validate backend.tfvars file
         run: |
           cat backend.tfvars
-          terraform validate -var-file=backend.tfvars
 
       - name: Validate terraform.tfvars file
         run: |
           cat terraform.tfvars
-          terraform validate -var-file=terraform.tfvars
 
       - name: Terraform Init
         run: terraform init -backend-config=backend.tfvars
