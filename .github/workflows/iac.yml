@@ -29,6 +29,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Print environment variables for debugging
+        run: |
+          echo "ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }}"
+          echo "ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }}"
+          echo "ARM_CLIENT_SECRET is set"
+          echo "ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }}"
+          echo "BACKEND_RESOURCE_GROUP_NAME=${{ secrets.BACKEND_RESOURCE_GROUP_NAME }}"
+          echo "BACKEND_STORAGE_ACCOUNT_NAME=${{ secrets.BACKEND_STORAGE_ACCOUNT_NAME }}"
+          echo "BACKEND_CONTAINER_NAME=${{ secrets.BACKEND_CONTAINER_NAME }}"
+          echo "BACKEND_KEY=${{ secrets.BACKEND_KEY }}"
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
