@@ -1,0 +1,113 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "1",
+        "author": "SaulR",
+        "changes": [
+          {
+            "createTable": {
+              "tableName": "Customers",
+              "columns": [
+                {
+                  "column": {
+                    "name": "CustomerID",
+                    "type": "int",
+                    "constraints": {
+                      "primaryKey": true,
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "Name",
+                    "type": "varchar(100)",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "Email",
+                    "type": "varchar(100)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "CreatedDate",
+                    "type": "date"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "2",
+        "author": "SaulR",
+        "changes": [
+          {
+            "insert": {
+              "tableName": "Customers",
+              "columns": [
+                {
+                  "column": {
+                    "name": "CustomerID",
+                    "valueNumeric": 1
+                  }
+                },
+                {
+                  "column": {
+                    "name": "Name",
+                    "value": "John Doe"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "Email",
+                    "value": "john.doe@example.com"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "CreatedDate",
+                    "valueDate": "2024-01-01"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "3",
+        "author": "SaulR",
+        "changes": [
+          {
+            "addColumn": {
+              "tableName": "Customers",
+              "columns": [
+                {
+                  "column": {
+                    "name": "Phone",
+                    "type": "varchar(20)",
+                    "constraints": {
+                      "nullable": true
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
