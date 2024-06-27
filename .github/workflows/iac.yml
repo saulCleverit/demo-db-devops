@@ -82,4 +82,17 @@ jobs:
       - name: Terraform Apply
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-          terraform apply -auto-approve -var-file=terraform.tfvars
+          terraform apply -auto-approve
+        env:
+          TF_VAR_admin_password: ${{ secrets.ADMIN_PASSWORD }}
+          TF_VAR_sql_server_name: ${{ secrets.SQL_SERVER_NAME }}
+          TF_VAR_sql_database_name: ${{ secrets.SQL_DATABASE_NAME }}
+          TF_VAR_admin_username: ${{ secrets.ADMIN_USERNAME }}
+          TF_VAR_subscription_id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          TF_VAR_client_id: ${{ secrets.ARM_CLIENT_ID }}
+          TF_VAR_client_secret: ${{ secrets.ARM_CLIENT_SECRET }}
+          TF_VAR_tenant_id: ${{ secrets.ARM_TENANT_ID }}
+          TF_VAR_backend_resource_group_name: ${{ secrets.BACKEND_RESOURCE_GROUP_NAME }}
+          TF_VAR_backend_storage_account_name: ${{ secrets.BACKEND_STORAGE_ACCOUNT_NAME }}
+          TF_VAR_backend_container_name: ${{ secrets.BACKEND_CONTAINER_NAME }}
+          TF_VAR_backend_key: ${{ secrets.BACKEND_KEY }}
