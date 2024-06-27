@@ -4,6 +4,7 @@ provider "azurerm" {
   client_id       = var.client_id
   client_secret   = var.client_secret
   tenant_id       = var.tenant_id
+
 }
 
 terraform {
@@ -14,7 +15,6 @@ terraform {
     key                  = var.backend_key
   }
 }
-
 resource "azurerm_resource_group" "demo" {
   name     = var.azurerm_resource_group_name
   location = var.location
