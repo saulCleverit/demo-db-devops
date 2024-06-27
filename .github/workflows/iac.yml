@@ -54,17 +54,6 @@ jobs:
           echo "container_name=\"${{ secrets.BACKEND_CONTAINER_NAME }}\"" >> backend.tfvars
           echo "key=\"${{ secrets.BACKEND_KEY }}\"" >> backend.tfvars
 
-      - name: Create terraform.tfvars file
-        run: |
-          echo "subscription_id=\"${{ secrets.ARM_SUBSCRIPTION_ID }}\"" > terraform.tfvars
-          echo "client_id=\"${{ secrets.ARM_CLIENT_ID }}\"" >> terraform.tfvars
-          echo "client_secret=\"${{ secrets.ARM_CLIENT_SECRET }}\"" >> terraform.tfvars
-          echo "tenant_id=\"${{ secrets.ARM_TENANT_ID }}\"" >> terraform.tfvars
-          echo "admin_password=\"${{ secrets.ADMIN_PASSWORD }}\"" >> terraform.tfvars
-          echo "sql_server_name=\"${{ secrets.SQL_SERVER_NAME }}\"" >> terraform.tfvars
-          echo "sql_database_name=\"${{ secrets.SQL_DATABASE_NAME }}\"" >> terraform.tfvars
-          echo "admin_username=\"${{ secrets.ADMIN_USERNAME }}\"" >> terraform.tfvars
-
       - name: Validate backend.tfvars file
         run: |
           cat backend.tfvars
@@ -79,10 +68,12 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+
       - name: Terraform Apply
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: |
-          terraform apply -auto-approve
+        run: terraform apply -auto-approve tfplan
         env:
           TF_VAR_admin_password: ${{ secrets.ADMIN_PASSWORD }}
           TF_VAR_sql_server_name: ${{ secrets.SQL_SERVER_NAME }}
