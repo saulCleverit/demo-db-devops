@@ -8,6 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TF_LOG: DEBUG
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
       TF_VAR_admin_password: ${{ secrets.ADMIN_PASSWORD }}
       TF_VAR_sql_server_name: ${{ secrets.SQL_SERVER_NAME }}
       TF_VAR_sql_database_name: ${{ secrets.SQL_DATABASE_NAME }}
@@ -30,13 +34,10 @@ jobs:
         with:
           terraform_version: 1.0.0
 
-      - name: Set up Azure credentials
-        run: |
-          echo "Setting Azure credentials"
-          export ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }}
-          export ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }}
-          export ARM_CLIENT_SECRET=${{ secrets.ARM_CLIENT_SECRET }}
-          export ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }}
+      - name: Login to Azure using Service Principal
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Create backend.tfvars file
         run: |
