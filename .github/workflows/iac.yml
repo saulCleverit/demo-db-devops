@@ -49,21 +49,21 @@ jobs:
 
       - name: Create backend.tfvars file
         run: |
-          echo "resource_group_name=${{ secrets.BACKEND_RESOURCE_GROUP_NAME }}" > backend.tfvars
-          echo "storage_account_name=${{ secrets.BACKEND_STORAGE_ACCOUNT_NAME }}" >> backend.tfvars
-          echo "container_name=${{ secrets.BACKEND_CONTAINER_NAME }}" >> backend.tfvars
-          echo "key=${{ secrets.BACKEND_KEY }}" >> backend.tfvars
+          echo "resource_group_name=\"${{ secrets.BACKEND_RESOURCE_GROUP_NAME }}\"" > backend.tfvars
+          echo "storage_account_name=\"${{ secrets.BACKEND_STORAGE_ACCOUNT_NAME }}\"" >> backend.tfvars
+          echo "container_name=\"${{ secrets.BACKEND_CONTAINER_NAME }}\"" >> backend.tfvars
+          echo "key=\"${{ secrets.BACKEND_KEY }}\"" >> backend.tfvars
 
       - name: Create terraform.tfvars file
         run: |
-          echo "subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}" > terraform.tfvars
-          echo "client_id=${{ secrets.ARM_CLIENT_ID }}" >> terraform.tfvars
-          echo "client_secret=${{ secrets.ARM_CLIENT_SECRET }}" >> terraform.tfvars
-          echo "tenant_id=${{ secrets.ARM_TENANT_ID }}" >> terraform.tfvars
-          echo "admin_password=${{ secrets.ADMIN_PASSWORD }}" >> terraform.tfvars
-          echo "sql_server_name=${{ secrets.SQL_SERVER_NAME }}" >> terraform.tfvars
-          echo "sql_database_name=${{ secrets.SQL_DATABASE_NAME }}" >> terraform.tfvars
-          echo "admin_username=${{ secrets.ADMIN_USERNAME }}" >> terraform.tfvars
+          echo "subscription_id=\"${{ secrets.ARM_SUBSCRIPTION_ID }}\"" > terraform.tfvars
+          echo "client_id=\"${{ secrets.ARM_CLIENT_ID }}\"" >> terraform.tfvars
+          echo "client_secret=\"${{ secrets.ARM_CLIENT_SECRET }}\"" >> terraform.tfvars
+          echo "tenant_id=\"${{ secrets.ARM_TENANT_ID }}\"" >> terraform.tfvars
+          echo "admin_password=\"${{ secrets.ADMIN_PASSWORD }}\"" >> terraform.tfvars
+          echo "sql_server_name=\"${{ secrets.SQL_SERVER_NAME }}\"" >> terraform.tfvars
+          echo "sql_database_name=\"${{ secrets.SQL_DATABASE_NAME }}\"" >> terraform.tfvars
+          echo "admin_username=\"${{ secrets.ADMIN_USERNAME }}\"" >> terraform.tfvars
 
       - name: Terraform Init
         run: terraform init -backend-config=backend.tfvars
