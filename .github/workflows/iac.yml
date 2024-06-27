@@ -37,7 +37,7 @@ jobs:
       - name: Set up Azure credentials
         run: |
           echo "Setting Azure credentials"
-          export ARM_SUBSCRIPTION_ID=${{ secrets.SUBSCRIPTION_ID }}
+          export ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }}
           export ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }}
           export ARM_CLIENT_SECRET=${{ secrets.ARM_CLIENT_SECRET }}
           export ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }}
@@ -55,7 +55,7 @@ jobs:
         run: |
           terraform plan \
             -var="admin_password=${ADMIN_PASSWORD}" \
-            -var="subscription_id=${SUBSCRIPTION_ID}" \
+            -var="subscription_id=${ARM_SUBSCRIPTION_ID}" \
             -var="sql_server_name=${SQL_SERVER_NAME}" \
             -var="sql_database_name=${SQL_DATABASE_NAME}" \
             -var="admin_username=${ADMIN_USERNAME}"
@@ -65,7 +65,7 @@ jobs:
         run: |
           terraform apply -auto-approve \
             -var="admin_password=${ADMIN_PASSWORD}" \
-            -var="subscription_id=${SUBSCRIPTION_ID}" \
+            -var="subscription_id=${ARM_SUBSCRIPTION_ID}" \
             -var="sql_server_name=${SQL_SERVER_NAME}" \
             -var="sql_database_name=${SQL_DATABASE_NAME}" \
             -var="admin_username=${ADMIN_USERNAME}"
