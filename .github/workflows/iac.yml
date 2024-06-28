@@ -1,4 +1,4 @@
-name: "Create Infrastructure"
+name: "Create Infrastructure and Run Liquibase"
 
 on:
   workflow_dispatch:
@@ -66,3 +66,28 @@ jobs:
       - name: Terraform Apply
         working-directory: ./iac
         run: terraform apply -auto-approve tfplan
+  liquibase:
+    runs-on: ubuntu-latest
+    needs: create
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Liquibase and JDBC Driver
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openjdk-11-jre
+          wget https://github.com/liquibase/liquibase/releases/download/v4.8.0/liquibase-4.8.0.tar.gz
+          tar -xzf liquibase-4.8.0.tar.gz
+          wget https://repo1.maven.org/maven2/com/microsoft/sqlserver/mssql-jdbc/9.4.1.jre11/mssql-jdbc-9.4.1.jre11.jar -P liquibase/lib
+          export PATH=$PATH:$(pwd)/liquibase
+
+      - name: Run Liquibase Migrations
+        env:
+          LIQUIBASE_URL: "jdbc:sqlserver://${{ secrets.SQL_SERVER_NAME }}.database.windows.net:1433;databaseName=${{ secrets.SQL_DATABASE_NAME }};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
+          LIQUIBASE_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+          LIQUIBASE_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+          LIQUIBASE_CHANGELOG: "./liquibase/changelog.json"
+          LIQUIBASE_DRIVER: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+        run: |
+          liquibase --url=${LIQUIBASE_URL} --username=${LIQUIBASE_USERNAME} --password=${LIQUIBASE_PASSWORD} --changeLogFile=${LIQUIBASE_CHANGELOG} --driver=${LIQUIBASE_DRIVER} update
