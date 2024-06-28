@@ -17,7 +17,7 @@ resource "azurerm_resource_group" "demo" {
 
 resource "azurerm_mssql_server" "demo_sql_server" {
   name                         = var.sql_server_name
-  resource_group_name          = var.azurerm_resource_group_name
+  resource_group_name          = azurerm_resource_group.demo.name
   location                     = var.location
   version                      = "12.0"
   administrator_login          = var.admin_username
