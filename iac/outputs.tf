@@ -10,6 +10,10 @@ output "sql_server_id" {
   value = azurerm_mssql_server.demo_sql_server.id
 }
 
-output "sql_database_name" {
-  value = azurerm_mssql_database.demo_sql_db.name
+output "sql_database_name_DEV" {
+  value = azurerm_mssql_database.dev_sql_db.name
+}
+
+output "sql_database_id_PROD" {
+  value = azurerm_mssql_database.prod_sql_db.id
 }

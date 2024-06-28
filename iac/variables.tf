@@ -9,9 +9,7 @@ variable "location" {
   default     = "Central US"
 }
 
-variable "environment" {
-  description = "Deployment environment (e.g., dev, test, prod)"
-}
+
 
 variable "backend_resource_group_name" {
   description = "The name of the Azure Resource Group for the backend"
@@ -37,8 +35,12 @@ variable "sql_server_name" {
   description = "The name of the SQL Server"
 }
 
-variable "sql_database_name" {
-  description = "The name of the SQL Database"
+variable "dev_sql_database_name" {
+  description = "Dev SQL Database Name"
+}
+
+variable "prod_sql_database_name" {
+  description = "Prod SQL Database Name"
 }
 
 variable "admin_username" {
