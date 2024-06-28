@@ -24,6 +24,8 @@ jobs:
       TF_VAR_backend_storage_account_name: ${{ secrets.BACKEND_STORAGE_ACCOUNT_NAME }}
       TF_VAR_backend_container_name: ${{ secrets.BACKEND_CONTAINER_NAME }}
       TF_VAR_backend_key: ${{ secrets.BACKEND_KEY }}
+      TF_VAR_dev_sql_database_name: "${{ secrets.SQL_DATABASE_NAME }}-dev"
+      TF_VAR_prod_sql_database_name: "${{ secrets.SQL_DATABASE_NAME }}-prod"
 
     steps:
       - name: Checkout code
