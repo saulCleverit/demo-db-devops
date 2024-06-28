@@ -80,16 +80,16 @@ jobs:
           sudo apt-get install -y openjdk-11-jre
           if [ ! -d "liquibase" ]; then
             wget https://github.com/liquibase/liquibase/releases/download/v4.8.0/liquibase-4.8.0.tar.gz
-            tar -xzf liquibase-4.8.0.tar.gz
+            tar -xzf liquibase-4.8.0.tar.gz -C liquibase --strip-components=1
           fi
           if [ ! -f "liquibase/lib/mssql-jdbc-9.4.1.jre11.jar" ]; then
             wget https://repo1.maven.org/maven2/com/microsoft/sqlserver/mssql-jdbc/9.4.1.jre11/mssql-jdbc-9.4.1.jre11.jar -P liquibase/lib
           fi
-          export PATH=$PATH:$(pwd)/liquibase
+          echo "$PWD/liquibase" >> $GITHUB_PATH
 
       - name: Verify Liquibase Installation
         run: |
-          liquibase --version
+          liquibase/liquibase --version
 
       - name: Execute Liquibase Migrations
         env:
@@ -99,4 +99,4 @@ jobs:
           LIQUIBASE_CHANGELOG: "./liquibase/changelog.xml"
           LIQUIBASE_DRIVER: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
         run: |
-          liquibase --url=${LIQUIBASE_URL} --username=${LIQUIBASE_USERNAME} --password=${LIQUIBASE_PASSWORD} --changeLogFile=${LIQUIBASE_CHANGELOG} --driver=${LIQUIBASE_DRIVER} update
+          ./liquibase/liquibase --url=${LIQUIBASE_URL} --username=${LIQUIBASE_USERNAME} --password=${LIQUIBASE_PASSWORD} --changeLogFile=${LIQUIBASE_CHANGELOG} --driver=${LIQUIBASE_DRIVER} update
