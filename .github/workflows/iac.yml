@@ -76,11 +76,10 @@ jobs:
 
       - name: Run Liquibase Migrations
         uses: liquibase/liquibase-github-action@v3
-        env:
-          LIQUIBASE_URL: "jdbc:sqlserver://${{ secrets.SQL_SERVER_NAME }}.database.windows.net:1433;databaseName=${{ secrets.SQL_DATABASE_NAME }};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
-          LIQUIBASE_USERNAME: ${{ secrets.ADMIN_USERNAME }}
-          LIQUIBASE_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
-          LIQUIBASE_CHANGELOGFILE: "liquibase/changelog.json"
-          LIQUIBASE_DRIVER: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
         with:
-          command: update
+          url: "jdbc:sqlserver://${{ secrets.SQL_SERVER_NAME }}.database.windows.net:1433;databaseName=${{ secrets.SQL_DATABASE_NAME }};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
+          username: ${{ secrets.ADMIN_USERNAME }}
+          password: ${{ secrets.ADMIN_PASSWORD }}
+          changelogFile: "liquibase/changelog.json"
+          driver: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+          command: "update"
