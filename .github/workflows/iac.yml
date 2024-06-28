@@ -91,6 +91,7 @@ jobs:
           cd ..
 
       - name: Verify Liquibase Installation
+        working-directory: ./liquibase
         run: liquibase --version
 
       - name: Execute Liquibase Migrations
