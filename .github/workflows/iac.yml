@@ -72,14 +72,14 @@ jobs:
     needs: create_infrastructure
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Run Liquibase Migrations
-        uses: liquibase/liquibase-github-action@v3
+        uses: liquibase-github-actions/update@v4.28.0
         with:
           url: "jdbc:sqlserver://${{ secrets.SQL_SERVER_NAME }}.database.windows.net:1433;databaseName=${{ secrets.SQL_DATABASE_NAME }};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
           username: ${{ secrets.ADMIN_USERNAME }}
           password: ${{ secrets.ADMIN_PASSWORD }}
           changelogFile: "liquibase/changelog.json"
           driver: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
-          command: "update"
+          showSummaryOutput: "log"
