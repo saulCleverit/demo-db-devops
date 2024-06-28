@@ -78,25 +78,27 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y openjdk-11-jre
-          if [ ! -d "liquibase" ]; then
+          mkdir -p liquibase/lib
+          cd liquibase
+          if [ ! -f liquibase ]; then
             wget https://github.com/liquibase/liquibase/releases/download/v4.8.0/liquibase-4.8.0.tar.gz
-            tar -xzf liquibase-4.8.0.tar.gz -C liquibase --strip-components=1
+            tar -xzf liquibase-4.8.0.tar.gz --strip-components=1
           fi
-          if [ ! -f "liquibase/lib/mssql-jdbc-9.4.1.jre11.jar" ]; then
-            wget https://repo1.maven.org/maven2/com/microsoft/sqlserver/mssql-jdbc/9.4.1.jre11/mssql-jdbc-9.4.1.jre11.jar -P liquibase/lib
+          if [ ! -f lib/mssql-jdbc-9.4.1.jre11.jar ]; then
+            wget https://repo1.maven.org/maven2/com/microsoft/sqlserver/mssql-jdbc/9.4.1.jre11/mssql-jdbc-9.4.1.jre11.jar -P lib
           fi
-          echo "$PWD/liquibase" >> $GITHUB_PATH
+          export PATH=$PATH:$(pwd)
+          cd ..
 
       - name: Verify Liquibase Installation
-        run: |
-          liquibase/liquibase --version
+        run: liquibase --version
 
       - name: Execute Liquibase Migrations
+        working-directory: ./liquibase
         env:
           LIQUIBASE_URL: "jdbc:sqlserver://${{ secrets.SQL_SERVER_NAME }}.database.windows.net:1433;databaseName=${{ secrets.SQL_DATABASE_NAME }};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
           LIQUIBASE_USERNAME: ${{ secrets.ADMIN_USERNAME }}
           LIQUIBASE_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
           LIQUIBASE_CHANGELOG: "./liquibase/changelog.xml"
           LIQUIBASE_DRIVER: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
-        run: |
-          ./liquibase/liquibase --url=${LIQUIBASE_URL} --username=${LIQUIBASE_USERNAME} --password=${LIQUIBASE_PASSWORD} --changeLogFile=${LIQUIBASE_CHANGELOG} --driver=${LIQUIBASE_DRIVER} update
+        run: liquibase --url=${LIQUIBASE_URL} --username=${LIQUIBASE_USERNAME} --password=${LIQUIBASE_PASSWORD} --changeLogFile=${LIQUIBASE_CHANGELOG} --driver=${LIQUIBASE_DRIVER} update
