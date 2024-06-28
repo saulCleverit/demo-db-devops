@@ -74,34 +74,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Setup Liquibase and JDBC Driver
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y openjdk-11-jre
-          mkdir -p liquibase/lib
-          cd liquibase
-          if [ ! -f liquibase ]; then
-            wget https://github.com/liquibase/liquibase/releases/download/v4.8.0/liquibase-4.8.0.tar.gz
-            tar -xzf liquibase-4.8.0.tar.gz --strip-components=1
-          fi
-          if [ ! -f lib/mssql-jdbc-9.4.1.jre11.jar ]; then
-            wget https://repo1.maven.org/maven2/com/microsoft/sqlserver/mssql-jdbc/9.4.1.jre11/mssql-jdbc-9.4.1.jre11.jar -P lib
-          fi
-          chmod +x liquibase
-          export PATH=$PATH:$(pwd)
-          echo "export PATH=$PATH:$(pwd)" >> $GITHUB_ENV
-          cd ..
-
-      - name: Verify Liquibase Installation
-        working-directory: ./liquibase
-        run: liquibase --version
-
-      - name: Execute Liquibase Migrations
-        working-directory: ./liquibase
+      - name: Run Liquibase Migrations
+        uses: liquibase/liquibase-github-action@v3
         env:
           LIQUIBASE_URL: "jdbc:sqlserver://${{ secrets.SQL_SERVER_NAME }}.database.windows.net:1433;databaseName=${{ secrets.SQL_DATABASE_NAME }};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
           LIQUIBASE_USERNAME: ${{ secrets.ADMIN_USERNAME }}
           LIQUIBASE_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
-          LIQUIBASE_CHANGELOG: "changelog.json"
+          LIQUIBASE_CHANGELOGFILE: "liquibase/changelog.json"
           LIQUIBASE_DRIVER: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
-        run: liquibase --url=${LIQUIBASE_URL} --username=${LIQUIBASE_USERNAME} --password=${LIQUIBASE_PASSWORD} --changeLogFile=${LIQUIBASE_CHANGELOG} --driver=${LIQUIBASE_DRIVER} update
+        with:
+          command: update
