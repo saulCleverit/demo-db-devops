@@ -40,6 +40,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Create backend.tfvars file
+        working-directory: ./iac
         run: |
           echo "resource_group_name=\"${{ secrets.BACKEND_RESOURCE_GROUP_NAME }}\"" > backend.tfvars
           echo "storage_account_name=\"${{ secrets.BACKEND_STORAGE_ACCOUNT_NAME }}\"" >> backend.tfvars
@@ -47,13 +48,17 @@ jobs:
           echo "key=\"${{ secrets.BACKEND_KEY }}\"" >> backend.tfvars
 
       - name: Display backend.tfvars for debugging
+        working-directory: ./iac
         run: cat backend.tfvars
 
       - name: Terraform Init
-        run: terraform init -backend-config=backend.tfvars
+        working-directory: ./iac
+        run: terraform init -backend-config=iac/backend.tfvars
 
       - name: Terraform Plan Destroy
+        working-directory: ./iac
         run: terraform plan -destroy -out=destroyplan
 
       - name: Terraform Apply Destroy
+        working-directory: ./iac
         run: terraform apply -auto-approve destroyplan
