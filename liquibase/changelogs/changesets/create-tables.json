@@ -1,0 +1,167 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "1",
+        "author": "SaulR",
+        "changes": [
+          {
+            "createTable": {
+              "tableName": "customers",
+              "columns": [
+                {
+                  "column": {
+                    "name": "customer_id",
+                    "type": "int",
+                    "constraints": {
+                      "primaryKey": true,
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "name",
+                    "type": "varchar(100)",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "email",
+                    "type": "varchar(100)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "created_date",
+                    "type": "date"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "2",
+        "author": "SaulR",
+        "changes": [
+          {
+            "insert": {
+              "tableName": "customers",
+              "columns": [
+                {
+                  "column": {
+                    "name": "customer_id",
+                    "valueNumeric": 1
+                  }
+                },
+                {
+                  "column": {
+                    "name": "name",
+                    "value": "John Doe"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "email",
+                    "value": "john.doe@example.com"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "created_date",
+                    "valueDate": "2024-01-01"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "3",
+        "author": "SaulR",
+        "changes": [
+          {
+            "addColumn": {
+              "tableName": "customers",
+              "columns": [
+                {
+                  "column": {
+                    "name": "phone",
+                    "type": "varchar(20)",
+                    "constraints": {
+                      "nullable": true
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "4",
+        "author": "SaulR",
+        "changes": [
+          {
+            "createTable": {
+              "tableName": "companies",
+              "columns": [
+                {
+                  "column": {
+                    "name": "id",
+                    "type": "int",
+                    "autoIncrement": true,
+                    "constraints": {
+                      "primaryKey": true,
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "name",
+                    "type": "varchar(255)",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "insert": {
+              "tableName": "companies",
+              "columns": [
+                {
+                  "column": {
+                    "name": "id",
+                    "valueNumeric": 1
+                  }
+                },
+                {
+                  "column": {
+                    "name": "name",
+                    "value": "CleverIT"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

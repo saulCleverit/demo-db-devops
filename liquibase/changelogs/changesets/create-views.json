@@ -1,0 +1,18 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "2",
+        "author": "SaulR",
+        "changes": [
+          {
+            "createView": {
+              "viewName": "companies_view",
+              "selectQuery": "SELECT id, name FROM companies"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "3",
+        "author": "SaulR",
+        "changes": [
+          {
+            "createProcedure": {
+              "procedureName": "companies_procedure",
+              "procedureBody": "CREATE PROCEDURE companies_procedure AS BEGIN SELECT * FROM companies END"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
