@@ -1,0 +1,19 @@
+{
+  "databaseChangeLog": [
+    {
+      "include": {
+        "file": "liquibase/changelogs/changesets/create-tables.json"
+      }
+    },
+    {
+      "include": {
+        "file": "liquibase/changelogs/changesets/create-views.json"
+      }
+    },
+    {
+      "include": {
+        "file": "liquibase/changelogs/changesets/create-procedures.json"
+      }
+    }
+  ]
+}

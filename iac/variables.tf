@@ -9,6 +9,10 @@ variable "location" {
   default     = "Central US"
 }
 
+variable "environment" {
+  description = "Deployment environment (e.g., dev, test, prod)"
+}
+
 variable "backend_resource_group_name" {
   description = "The name of the Azure Resource Group for the backend"
   type        = string

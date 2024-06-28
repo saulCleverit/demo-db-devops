@@ -28,12 +28,14 @@ resource "azurerm_mssql_server" "demo_sql_server" {
   }
 }
 
-resource "azurerm_mssql_database" "demo_sql_db" {
-  name        = var.sql_database_name
+
+resource "azurerm_mssql_database" "dev_sql_db" {
+  name        = "${var.sql_database_name}-${var.environment}"
   server_id   = azurerm_mssql_server.demo_sql_server.id
   sku_name    = "S0"
   max_size_gb = 10
 }
+
 
 resource "azurerm_mssql_firewall_rule" "example" {
   name             = "allow_all"
