@@ -29,7 +29,7 @@ resource "azurerm_mssql_server" "demo_sql_server" {
 }
 
 
-resource "azurerm_mssql_database" "dev_sql_db" {
+resource "azurerm_mssql_database" "demo_sql_db" {
   name        = "${var.sql_database_name}-${var.environment}"
   server_id   = azurerm_mssql_server.demo_sql_server.id
   sku_name    = "S0"
