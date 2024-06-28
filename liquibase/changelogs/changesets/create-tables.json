@@ -7,11 +7,11 @@
         "changes": [
           {
             "createTable": {
-              "tableName": "customers",
+              "tableName": "Customers",
               "columns": [
                 {
                   "column": {
-                    "name": "customer_id",
+                    "name": "CustomerID",
                     "type": "int",
                     "constraints": {
                       "primaryKey": true,
@@ -21,7 +21,7 @@
                 },
                 {
                   "column": {
-                    "name": "name",
+                    "name": "Name",
                     "type": "varchar(100)",
                     "constraints": {
                       "nullable": false
@@ -30,13 +30,13 @@
                 },
                 {
                   "column": {
-                    "name": "email",
+                    "name": "Email",
                     "type": "varchar(100)"
                   }
                 },
                 {
                   "column": {
-                    "name": "created_date",
+                    "name": "CreatedDate",
                     "type": "date"
                   }
                 }
@@ -53,29 +53,29 @@
         "changes": [
           {
             "insert": {
-              "tableName": "customers",
+              "tableName": "Customers",
               "columns": [
                 {
                   "column": {
-                    "name": "customer_id",
+                    "name": "CustomerID",
                     "valueNumeric": 1
                   }
                 },
                 {
                   "column": {
-                    "name": "name",
+                    "name": "Name",
                     "value": "John Doe"
                   }
                 },
                 {
                   "column": {
-                    "name": "email",
+                    "name": "Email",
                     "value": "john.doe@example.com"
                   }
                 },
                 {
                   "column": {
-                    "name": "created_date",
+                    "name": "CreatedDate",
                     "valueDate": "2024-01-01"
                   }
                 }
@@ -92,11 +92,11 @@
         "changes": [
           {
             "addColumn": {
-              "tableName": "customers",
+              "tableName": "Customers",
               "columns": [
                 {
                   "column": {
-                    "name": "phone",
+                    "name": "Phone",
                     "type": "varchar(20)",
                     "constraints": {
                       "nullable": true
@@ -140,6 +140,19 @@
                 }
               ]
             }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "5",
+        "author": "SaulR",
+        "changes": [
+          {
+            "sql": {
+              "sql": "SET IDENTITY_INSERT companies ON;"
+            }
           },
           {
             "insert": {
@@ -158,6 +171,11 @@
                   }
                 }
               ]
+            }
+          },
+          {
+            "sql": {
+              "sql": "SET IDENTITY_INSERT companies OFF;"
             }
           }
         ]
