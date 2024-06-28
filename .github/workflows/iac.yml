@@ -87,13 +87,14 @@ jobs:
           if [ ! -f lib/mssql-jdbc-9.4.1.jre11.jar ]; then
             wget https://repo1.maven.org/maven2/com/microsoft/sqlserver/mssql-jdbc/9.4.1.jre11/mssql-jdbc-9.4.1.jre11.jar -P lib
           fi
+          chmod +x liquibase
           export PATH=$PATH:$(pwd)
           echo "export PATH=$PATH:$(pwd)" >> $GITHUB_ENV
           cd ..
 
       - name: Verify Liquibase Installation
         working-directory: ./liquibase
-        run: ./liquibase --version
+        run: liquibase --version
 
       - name: Execute Liquibase Migrations
         working-directory: ./liquibase
@@ -103,4 +104,4 @@ jobs:
           LIQUIBASE_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
           LIQUIBASE_CHANGELOG: "changelog.json"
           LIQUIBASE_DRIVER: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
-        run: ./liquibase --url=${LIQUIBASE_URL} --username=${LIQUIBASE_USERNAME} --password=${LIQUIBASE_PASSWORD} --changeLogFile=${LIQUIBASE_CHANGELOG} --driver=${LIQUIBASE_DRIVER} update
+        run: liquibase --url=${LIQUIBASE_URL} --username=${LIQUIBASE_USERNAME} --password=${LIQUIBASE_PASSWORD} --changeLogFile=${LIQUIBASE_CHANGELOG} --driver=${LIQUIBASE_DRIVER} update
