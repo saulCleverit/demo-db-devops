@@ -53,7 +53,7 @@ jobs:
 
       - name: Terraform Init
         working-directory: ./iac
-        run: terraform init -backend-config=iac/backend.tfvars
+        run: terraform init -backend-config=backend.tfvars
 
       - name: Terraform Validate
         working-directory: ./iac
