@@ -83,3 +83,4 @@ jobs:
           changelogFile: "liquibase/changelog.json"
           driver: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
           showSummaryOutput: "log"
+          contextFilter: "!prod"
