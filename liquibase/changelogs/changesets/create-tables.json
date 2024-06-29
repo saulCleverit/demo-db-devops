@@ -50,6 +50,7 @@
       "changeSet": {
         "id": "2",
         "author": "SaulR",
+        "context": "dev",
         "changes": [
           {
             "insert": {
@@ -89,6 +90,7 @@
       "changeSet": {
         "id": "3",
         "author": "SaulR",
+        "context": "dev,prod",
         "changes": [
           {
             "addColumn": {
@@ -113,6 +115,7 @@
       "changeSet": {
         "id": "4",
         "author": "SaulR",
+        "context": "dev,prod",
         "changes": [
           {
             "createTable": {
@@ -148,6 +151,7 @@
       "changeSet": {
         "id": "5",
         "author": "SaulR",
+        "context": "dev,prod",
         "changes": [
           {
             "sql": {
