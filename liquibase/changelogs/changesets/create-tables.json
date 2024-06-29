@@ -50,7 +50,7 @@
       "changeSet": {
         "id": "2",
         "author": "SaulR",
-        "context": "dev",
+        "context": "dev,prod",
         "changes": [
           {
             "insert": {
