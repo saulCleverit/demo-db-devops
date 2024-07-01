@@ -6,35 +6,33 @@ on:
       - main
       - dev
 
-env:
-  SQL_SERVER_BASE_URL: ${{ secrets.SQL_SERVER_NAME }}.database.windows.net:1433
-  JDBC_URL_PREFIX: "jdbc:sqlserver://"
-  JDBC_URL_SUFFIX: ";encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
-  DRIVER: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
-  CHANGELOG_FILE: "liquibase/changelog.json"
-
 jobs:
   liquibase-update:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - branch: dev
-            context: dev
-          - branch: main
-            context: prod
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Run Liquibase Migrations
-        if: github.ref == 'refs/heads/${{ matrix.branch }}'
+      - name: Run Liquibase Migrations for DEV
+        if: github.ref == 'refs/heads/dev'
         uses: liquibase-github-actions/update@v4.28.0
         with:
-          url: "${{ env.JDBC_URL_PREFIX }}${{ env.SQL_SERVER_BASE_URL }};databaseName=${{ secrets.SQL_DATABASE_NAME }}-${{ matrix.context }}${{ env.JDBC_URL_SUFFIX }}"
+          url: "jdbc:sqlserver://${{ secrets.SQL_SERVER_NAME }}.database.windows.net:1433;databaseName=${{ secrets.SQL_DATABASE_NAME }}-dev;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
           username: ${{ secrets.ADMIN_USERNAME }}
           password: ${{ secrets.ADMIN_PASSWORD }}
-          changelogFile: ${{ env.CHANGELOG_FILE }}
-          driver: ${{ env.DRIVER }}
+          changelogFile: "liquibase/changelog.json"
+          driver: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
           showSummaryOutput: "log"
-          contextFilter: ${{ matrix.context }}
+          contextFilter: "dev"
+
+      - name: Run Liquibase Update for main
+        if: github.ref == 'refs/heads/main'
+        uses: liquibase-github-actions/update@v4.28.0
+        with:
+          url: "jdbc:sqlserver://${{ secrets.SQL_SERVER_NAME }}.database.windows.net:1433;databaseName=${{ secrets.SQL_DATABASE_NAME }}-prod;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
+          username: ${{ secrets.ADMIN_USERNAME }}
+          password: ${{ secrets.ADMIN_PASSWORD }}
+          changelogFile: "liquibase/changelog.json"
+          driver: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+          showSummaryOutput: "log"
+          contextFilter: "prod"
