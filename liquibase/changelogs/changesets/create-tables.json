@@ -123,7 +123,7 @@
               "columns": [
                 {
                   "column": {
-                    "name": "image",
+                    "name": "Image",
                     "type": "varchar(20)",
                     "constraints": {
                       "nullable": true
