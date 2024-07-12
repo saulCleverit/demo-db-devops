@@ -118,19 +118,28 @@
         "context": "dev",
         "changes": [
           {
-            "addColumn": {
+            "renameColumn": {
               "tableName": "Customers",
-              "columns": [
-                {
-                  "column": {
-                    "name": "Image",
-                    "type": "varchar(20)",
-                    "constraints": {
-                      "nullable": true
-                    }
-                  }
-                }
-              ]
+              "oldColumnName": "image",
+              "newColumnName": "Image",
+              "columnDataType": "varchar(20)"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "7",
+        "author": "SaulR",
+        "context": "dev",
+        "changes": [
+          {
+            "renameColumn": {
+              "tableName": "Customers",
+              "oldColumnName": "image",
+              "newColumnName": "Image",
+              "columnDataType": "varchar(20)"
             }
           }
         ]
