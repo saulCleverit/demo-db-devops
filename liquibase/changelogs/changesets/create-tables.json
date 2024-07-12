@@ -113,6 +113,31 @@
     },
     {
       "changeSet": {
+        "id": "6",
+        "author": "SaulR",
+        "context": "dev",
+        "changes": [
+          {
+            "addColumn": {
+              "tableName": "Customers",
+              "columns": [
+                {
+                  "column": {
+                    "name": "image",
+                    "type": "varchar(20)",
+                    "constraints": {
+                      "nullable": true
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
         "id": "4",
         "author": "SaulR",
         "context": "dev,prod",
