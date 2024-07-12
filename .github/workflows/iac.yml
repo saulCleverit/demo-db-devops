@@ -1,7 +1,9 @@
 name: "IAC - Setup SQL Environment"
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   create_infrastructure:

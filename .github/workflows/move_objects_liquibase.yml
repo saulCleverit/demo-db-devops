@@ -3,7 +3,6 @@ name: Liquibase Update
 on:
   push:
     branches:
-      - main
       - dev
 
 jobs:
