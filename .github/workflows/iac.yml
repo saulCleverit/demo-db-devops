@@ -1,4 +1,4 @@
-name: "IAC - Setup SQL Environment"
+name: "IAC - Setup SQL Environments"
 
 on:
   push:
