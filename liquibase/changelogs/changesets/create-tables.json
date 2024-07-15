@@ -226,6 +226,31 @@
           }
         ]
       }
+    },
+    {
+      "changeSet": {
+        "id": "8",
+        "author": "SaulR",
+        "context": "dev",
+        "changes": [
+          {
+            "addColumn": {
+              "tableName": "Customers",
+              "columns": [
+                {
+                  "column": {
+                    "name": "Age",
+                    "type": "varchar(3)",
+                    "constraints": {
+                      "nullable": true
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
     }
   ]
 }
