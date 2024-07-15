@@ -118,11 +118,19 @@
         "context": "dev",
         "changes": [
           {
-            "renameColumn": {
+            "addColumn": {
               "tableName": "Customers",
-              "oldColumnName": "image",
-              "newColumnName": "Image",
-              "columnDataType": "varchar(20)"
+              "columns": [
+                {
+                  "column": {
+                    "name": "image",
+                    "type": "varchar(20)",
+                    "constraints": {
+                      "nullable": true
+                    }
+                  }
+                }
+              ]
             }
           }
         ]
